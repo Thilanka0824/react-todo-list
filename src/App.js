@@ -6,13 +6,24 @@ const ToDoListContainer = (props) => {
 
   return (
     <div>
-      <h1>Todo List</h1>     
+      <h1>Todo List</h1>
+      {props.toDoList.map((toDo, index) => {
+        return <ToDoItem toDo={toDo} key={index} />
+      })}
     </div>
   )
 }
 
+const ToDoItem = (props) => {
+  return (
+    <div>{console.log("yo yo")}</div>
+    
+  )
+  
+}
+
 const App = () => {
-  const [toDoList, useToDoList] = useState(
+  const [toDoList, setToDoList] = useState(
     [{
       title: "Implement ToDo List",
       priority: "High",
@@ -26,7 +37,7 @@ const App = () => {
 
   return (
     <div className="App-header">
-      <ToDoListContainer />
+      <ToDoListContainer toDoList={toDoList}/>
     </div>
   )
 }
