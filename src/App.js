@@ -15,8 +15,19 @@ const ToDoListContainer = (props) => {
 }
 
 const ToDoItem = (props) => {
+  
+  
   return (
-    <div>{console.log("yo yo")}</div>
+    <div>
+    <h2>Todo: {props.toDo.title}</h2>
+    <p>Priority: {props.toDo.priority}</p>
+    <p>Description: {props.toDo.description}</p>
+    <p>Created: {props.toDo.creationDate}</p>
+    {props.toDo.completedDate && <p>Completed: {props.toDo.completedDate}</p>}
+    
+    {console.log(props.toDo)}
+    
+    </div>
     
   )
   
