@@ -1,6 +1,39 @@
 import { useState } from "react";
 import "./App.css";
 
+const ToDoForm = (props) => {
+  const [title, setTitle] = useState('');
+  const [priority, setPriority] = useState('');
+  const [description, setDescription] = useState('');
+
+  return (
+    <div>
+      <label>Title: </label>
+      <input type="text" onChange={(e) => {
+        setTitle(e.target.value)
+      }} />
+      <br />
+      <label>Priority: </label>
+      <input type="text" />
+      <select onChange={(e) => {
+        setPriority(e.target.value)
+      }}>
+        <option value=""></option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+      <br />
+      <label>Description</label>
+      <textarea type="text" onChange={(e) => {
+        setDescription(e.target.value)
+      }} />
+      <br />
+    </div>
+  )
+
+};
+
 const ToDoListContainer = (props) => {
 
 
@@ -12,26 +45,26 @@ const ToDoListContainer = (props) => {
       })}
     </div>
   )
-}
+};
 
 const ToDoItem = (props) => {
-  
-  
+
+
   return (
     <div>
-    <h2>Todo: {props.toDo.title}</h2>
-    <p>Priority: {props.toDo.priority}</p>
-    <p>Description: {props.toDo.description}</p>
-    <p>Created: {props.toDo.creationDate}</p>
-    {props.toDo.completedDate && <p>Completed: {props.toDo.completedDate}</p>}
-    
-    {console.log(props.toDo)}
-    
+      <h2>Todo: {props.toDo.title}</h2>
+      <p>Priority: {props.toDo.priority}</p>
+      <p>Description: {props.toDo.description}</p>
+      <p>Created: {props.toDo.creationDate}</p>
+      {props.toDo.completedDate && <p>Completed: {props.toDo.completedDate}</p>}
+
+      {console.log(props.toDo)}
+
     </div>
-    
+
   )
-  
-}
+
+};
 
 const App = () => {
   const [toDoList, setToDoList] = useState(
@@ -48,9 +81,10 @@ const App = () => {
 
   return (
     <div className="App-header">
-      <ToDoListContainer toDoList={toDoList}/>
+      <ToDoForm />
+      <ToDoListContainer toDoList={toDoList} />
     </div>
   )
-}
+};
 
-export default App
+export default App;
