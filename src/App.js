@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 
+
+
 const ToDoForm = (props) => {
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState('');
@@ -14,7 +16,6 @@ const ToDoForm = (props) => {
       }} />
       <br />
       <label>Priority: </label>
-      <input type="text" />
       <select onChange={(e) => {
         setPriority(e.target.value)
       }}>
@@ -29,6 +30,9 @@ const ToDoForm = (props) => {
         setDescription(e.target.value)
       }} />
       <br />
+      <button onClick={() => {
+        props.handleAddToDo(title, priority, description)
+      }}>Add ToDo</button>
     </div>
   )
 
@@ -67,6 +71,7 @@ const ToDoItem = (props) => {
 };
 
 const App = () => {
+
   const [toDoList, setToDoList] = useState(
     [{
       title: "Implement ToDo List",
@@ -78,10 +83,25 @@ const App = () => {
     }]
 
   )
+  const handleAddToDo = (title, priority, description) => {
+    const newToDo = {
+      title: title,
+      priority: priority,
+      description: description,
+      creationDate: new Date().toString(),
+      completed: null
+    }
+
+    const toDoListCopy = [...toDoList, newToDo]
+    setToDoList(toDoListCopy)
+
+  }
+
+
 
   return (
     <div className="App-header">
-      <ToDoForm />
+      <ToDoForm handleAddToDo={handleAddToDo} />
       <ToDoListContainer toDoList={toDoList} />
     </div>
   )
