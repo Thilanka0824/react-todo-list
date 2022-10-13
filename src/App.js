@@ -40,7 +40,6 @@ const ToDoForm = (props) => {
 
 const ToDoListContainer = (props) => {
 
-
   return (
     <div>
       <h1>Todo List</h1>
@@ -52,7 +51,6 @@ const ToDoListContainer = (props) => {
 };
 
 const ToDoItem = (props) => {
-
 
   return (
     <div>
@@ -97,12 +95,20 @@ const App = () => {
 
   }
 
-
+  const handleUpdateToDo = (title, createdDate) => {
+    
+    const toDoListCopy = [...toDoList]
+    props.toDoListCopy.map((title, createdDate)=>{
+      return (
+        
+      )
+    })
+  }
 
   return (
     <div className="App-header">
-      <ToDoForm handleAddToDo={handleAddToDo} />
-      <ToDoListContainer toDoList={toDoList} />
+      <ToDoForm handleAddToDo={handleAddToDo} handleUpdateToDo={handleUpdateToDo}/>
+      <ToDoListContainer toDoList={toDoList} handleUpdateToDo={handleUpdateToDo} />
     </div>
   )
 };
