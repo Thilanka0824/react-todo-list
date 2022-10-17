@@ -7,6 +7,7 @@ const ToDoForm = (props) => {
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState('');
   const [description, setDescription] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <div>
@@ -33,8 +34,26 @@ const ToDoForm = (props) => {
       <button onClick={() => {
         props.handleAddToDo(title, priority, description)
       }}>Add ToDo</button>
+      <br />
+      <div>
+        <h1>Login area</h1>
+        <button onClick={() => setLoggedIn(!loggedIn)}>Log In</button>
+
+        {loggedIn ?
+          (
+            <h3>Hello, Thilanka! Welcome back!!</h3>
+          ) :
+          (
+            <h3>Please Log In, we don't know you</h3>
+          )}
+      </div>
+
     </div>
+
+
   )
+
+
 
 };
 
@@ -86,7 +105,7 @@ const App = () => {
       title: title,
       priority: priority,
       description: description,
-      creationDate: new Date().toString(),
+      creationDate: new Date().toString().substring(4, 24),
       completed: null
     }
 
@@ -96,18 +115,16 @@ const App = () => {
   }
 
   const handleUpdateToDo = (title, createdDate) => {
-    
+
     const toDoListCopy = [...toDoList]
-    props.toDoListCopy.map((title, createdDate)=>{
-      return (
-        
-      )
+    toDoListCopy.map((toDo) => {
+
     })
   }
 
   return (
     <div className="App-header">
-      <ToDoForm handleAddToDo={handleAddToDo} handleUpdateToDo={handleUpdateToDo}/>
+      <ToDoForm handleAddToDo={handleAddToDo} handleUpdateToDo={handleUpdateToDo} />
       <ToDoListContainer toDoList={toDoList} handleUpdateToDo={handleUpdateToDo} />
     </div>
   )
