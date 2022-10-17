@@ -1,52 +1,46 @@
 import { useState } from "react";
 import "./App.css";
 
-
-
 const ToDoForm = (props) => {
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState('');
   const [description, setDescription] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
+  
 
   return (
+
+   
     <div>
-      <label>Title: </label>
-      <input type="text" onChange={(e) => {
+      
+    <label>Title: </label>
+      <input type="text" value={title} onChange={(e) => {
+        
         setTitle(e.target.value)
       }} />
       <br />
       <label>Priority: </label>
-      <select onChange={(e) => {
+      <select value={priority} onChange={(e) => {
         setPriority(e.target.value)
       }}>
-        <option value=""></option>
+        <option value="">Select an Option</option>
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
       </select>
       <br />
       <label>Description</label>
-      <textarea type="text" onChange={(e) => {
+      <textarea type="text" value={description} onChange={(e) => {
         setDescription(e.target.value)
       }} />
       <br />
       <button onClick={() => {
         props.handleAddToDo(title, priority, description)
+        setTitle('')
+        setPriority('')
+        setDescription('')
       }}>Add ToDo</button>
       <br />
-      <div>
-        <h1>Login area</h1>
-        <button onClick={() => setLoggedIn(!loggedIn)}>Log In</button>
 
-        {loggedIn ?
-          (
-            <h3>Hello, Thilanka! Welcome back!!</h3>
-          ) :
-          (
-            <h3>Please Log In, we don't know you</h3>
-          )}
-      </div>
 
     </div>
 
@@ -56,12 +50,27 @@ const ToDoForm = (props) => {
 
 
 };
+const Logger = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  <div>
+    <h1>Login area</h1>
+    <button onClick={() => setLoggedIn(!loggedIn)}>Log In</button>
 
+    {loggedIn ?
+      (
+        <h3>Hello, Thilanka! Welcome back!!</h3>
+      ) :
+      (
+        <h3>Please Log In, we don't know you</h3>
+      )}
+  </div>
+}
 const ToDoListContainer = (props) => {
-
+  const toDosLength = props.toDoList.length
   return (
     <div>
       <h1>Todo List</h1>
+      <p>Number of ToDos: {toDosLength}</p>
       {props.toDoList.map((todo, index) => {
         return <ToDoItem todo={todo} key={index} />
       })}
@@ -70,17 +79,16 @@ const ToDoListContainer = (props) => {
 };
 
 const ToDoItem = (props) => {
+  const { title, priority, description, createdDate, completedDate } = props.todo
 
   return (
     <div>
-      <h2>Todo: {props.todo.title}</h2>
-      <p>Priority: {props.todo.priority}</p>
-      <p>Description: {props.todo.description}</p>
-      <p>Created: {props.todo.createdDate}</p>
-      {props.todo.completedDate && <p>Completed: {props.todo.completedDate}</p>}
-
+      <h2>{title}</h2>
+      <p>Priority: {priority}</p>
+      <p>Description: {description}</p>
+      <p>CreatedAt: {createdDate}</p>
+      {completedDate && <p>Completed: {completedDate}</p>}
       {console.log(props.todo)}
-
     </div>
 
   )
@@ -99,8 +107,11 @@ const App = () => {
       completedDate: null
     }]
 
+
   )
   const handleAddToDo = (title, priority, description) => {
+
+
     const newToDo = {
       title: title,
       priority: priority,
@@ -123,14 +134,18 @@ const App = () => {
     const toDoListCopy = [...toDoList]
     let listCopy = toDoListCopy.map((todo) => {
       if (todo.title === title && todo.createdDate === createdDate) {
-        if (todo.isComplete === false) {
-          todo.isComplete = true
-          todo.completedDate = new Date().toString()
-        } else {
-          todo.isComplete = false
-          todo.completedDate = null
+        const updatedToDo = {
+          ...todo //destructured object
         }
-        return todo
+        updatedToDo.isComplete = !updatedToDo.isComplete //isComplete in the new updatedToDo object is set to it's opposite 
+        if (updatedToDo.isComplete === false) {
+          updatedToDo.isComplete = true
+          updatedToDo.completedDate = new Date().toString()
+        } else {
+          //updatedToDo.isComplete = false
+          updatedToDo.completedDate = null
+        }
+        return updatedToDo
       } else {
         return todo
       }
@@ -141,15 +156,14 @@ const App = () => {
 
   }
 
+
   return (
     <div className="App-header">
       <ToDoForm handleAddToDo={handleAddToDo} handleUpdateToDo={handleUpdateToDo} />
       <ToDoListContainer toDoList={toDoList} handleUpdateToDo={handleUpdateToDo} />
+      <Logger />
     </div>
   )
 };
-
-
-
 
 export default App;
