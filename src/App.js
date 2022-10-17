@@ -62,8 +62,8 @@ const ToDoListContainer = (props) => {
   return (
     <div>
       <h1>Todo List</h1>
-      {props.toDoList.map((toDo, index) => {
-        return <ToDoItem toDo={toDo} key={index} />
+      {props.toDoList.map((todo, index) => {
+        return <ToDoItem todo={todo} key={index} />
       })}
     </div>
   )
@@ -73,13 +73,13 @@ const ToDoItem = (props) => {
 
   return (
     <div>
-      <h2>Todo: {props.toDo.title}</h2>
-      <p>Priority: {props.toDo.priority}</p>
-      <p>Description: {props.toDo.description}</p>
-      <p>Created: {props.toDo.creationDate}</p>
-      {props.toDo.completedDate && <p>Completed: {props.toDo.completedDate}</p>}
+      <h2>Todo: {props.todo.title}</h2>
+      <p>Priority: {props.todo.priority}</p>
+      <p>Description: {props.todo.description}</p>
+      <p>Created: {props.todo.createdDate}</p>
+      {props.todo.completedDate && <p>Completed: {props.todo.completedDate}</p>}
 
-      {console.log(props.toDo)}
+      {console.log(props.todo)}
 
     </div>
 
@@ -95,7 +95,7 @@ const App = () => {
       priority: "High",
       isComplete: false,
       description: "Implement the todo list application",
-      creationDate: new Date().toString(),
+      createdDate: new Date().toString(),
       completedDate: null
     }]
 
@@ -105,7 +105,7 @@ const App = () => {
       title: title,
       priority: priority,
       description: description,
-      creationDate: new Date().toString().substring(4, 24),
+      createdDate: new Date().toString().substring(4, 24),
       completed: null
     }
 
@@ -115,11 +115,30 @@ const App = () => {
   }
 
   const handleUpdateToDo = (title, createdDate) => {
-
+    // function example() {
+    //   return condition1 ? value1 : condition2 ? value2
+    //       : condition3 ? value3
+    //         : value4;
+    // }
     const toDoListCopy = [...toDoList]
-    toDoListCopy.map((toDo) => {
-
+    let listCopy = toDoListCopy.map((todo) => {
+      if (todo.title === title && todo.createdDate === createdDate) {
+        if (todo.isComplete === false) {
+          todo.isComplete = true
+          todo.completedDate = new Date().toString()
+        } else {
+          todo.isComplete = false
+          todo.completedDate = null
+        }
+        return todo
+      } else {
+        return todo
+      }
     })
+    console.log("List Copy: ")
+    console.log(toDoListCopy)
+    setToDoList(listCopy)
+
   }
 
   return (
@@ -129,5 +148,8 @@ const App = () => {
     </div>
   )
 };
+
+
+
 
 export default App;
