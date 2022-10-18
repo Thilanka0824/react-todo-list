@@ -1,5 +1,10 @@
 import { useState } from "react";
 import "./App.css";
+import Navbar from "./navbar";
+import About from "./pages/About";
+import Completed from "./pages/Completed";
+import Home from "./pages/Home";
+//import {Switch, Route} from "react-router-dom"
 
 const ToDoForm = (props) => {
   const [title, setTitle] = useState('');
@@ -52,8 +57,9 @@ const ToDoForm = (props) => {
 };
 const Logger = () => {
   const [loggedIn, setLoggedIn] = useState(false);
+  return (
   <div>
-    <h1>Login area</h1>
+    <h1>Login Area</h1>
     <button onClick={() => setLoggedIn(!loggedIn)}>Log In</button>
 
     {loggedIn ?
@@ -64,6 +70,7 @@ const Logger = () => {
         <h3>Please Log In, we don't know you</h3>
       )}
   </div>
+  )
 }
 const ToDoListContainer = (props) => {
   const toDosLength = props.toDoList.length
@@ -137,7 +144,7 @@ const App = () => {
         const updatedToDo = {
           ...todo //destructured object
         }
-        updatedToDo.isComplete = !updatedToDo.isComplete //isComplete in the new updatedToDo object is set to it's opposite 
+        updatedToDo.isComplete = !updatedToDo.isComplete //isComplete in the new updatedToDo object is set to the opposite 
         if (updatedToDo.isComplete === false) {
           updatedToDo.isComplete = true
           updatedToDo.completedDate = new Date().toString()
@@ -150,6 +157,7 @@ const App = () => {
         return todo
       }
     })
+    
     console.log("List Copy: ")
     console.log(toDoListCopy)
     setToDoList(listCopy)
@@ -159,11 +167,19 @@ const App = () => {
 
   return (
     <div className="App-header">
+      <Navbar />
       <ToDoForm handleAddToDo={handleAddToDo} handleUpdateToDo={handleUpdateToDo} />
       <ToDoListContainer toDoList={toDoList} handleUpdateToDo={handleUpdateToDo} />
       <Logger />
+      {/* <Switch>
+        <Route path="/about">
+          <About/>
+        </Route>
+      </Switch> */}
     </div>
   )
 };
+
+
 
 export default App;
